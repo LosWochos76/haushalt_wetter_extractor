@@ -1,7 +1,5 @@
 # Extractor-Script für PDF-Dateien des Haushalts der Stadt Wetter (Ruhr)
 
-## Grundlagen
-
 Der Haushaltsplan einer Gemeinde dient bekanntlich zur Feststellung des
 gesamten Finanzbedarfs für die Erfüllung aller Aufgaben im kommenden Haushaltsjahrs, 
 siehe: https://de.wikipedia.org/wiki/Haushaltsplan.
