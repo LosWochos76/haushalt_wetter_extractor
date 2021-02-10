@@ -4,9 +4,9 @@ import pandas as pd
 from decimal import *
 
 class Seite:
-	def __init__(self, name, jahr, page_number, page_lines):
+	def __init__(self, dokument, jahr, page_number, page_lines):
 		self.meta = {}
-		self.meta["name"] = name
+		self.meta["dokument"] = dokument
 		self.meta["jahr"] = jahr
 		self.meta["seite"] = page_number
 		
@@ -80,7 +80,7 @@ class Seite:
 	def split_rows(self, columns, rows):
 		for i in range(1,len(columns)):
 			row = []
-			row.append(self.meta["name"])
+			row.append(self.meta["dokument"])
 			row.append(self.meta["seite"])
 			row.append(self.meta["obergruppe"])
 			row.append(self.meta["mittelgruppe"])

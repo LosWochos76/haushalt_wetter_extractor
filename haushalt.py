@@ -18,7 +18,7 @@ class Haushalt:
 			print("Extrahiere Text aus dem PDF-Dokument...")
 			os.mkdir(self.cache_dir)
 
-			with pdfplumber.open(pdf_filename) as pdf:
+			with pdfplumber.open(self.pdf_filename) as pdf:
 				pages_count = len(pdf.pages);
 				for page_number in range(pages_count):
 					page_text = str(pdf.pages[page_number].extract_text())

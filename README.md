@@ -51,7 +51,7 @@ Das Excel-Sheet, welches durch den Export entsteht, besitzt die folgenden Spalte
 
 Um das Script zu nutzen, muss das PDF-Dokument des Haushalts im lokalen Ordner abgelegt werden.
 Zudem müssen die beiden Python-Pakete "pdfplumber" und "xlsxwriter" installiert sein.
-Danach kann der Haushalt wir folgt extrahiert werden:
+Danach kann der Haushalt wie folgt extrahiert werden:
 
 ```python
 from haushalt import Haushalt
