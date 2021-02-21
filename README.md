@@ -52,23 +52,19 @@ Zudem müssen die beiden Python-Pakete "pdfplumber" und "xlsxwriter" installiert
 Danach kann der Haushalt wie folgt extrahiert werden:
 
 ```python
-from haushalt import Haushalt
+from budget import Budget
 
-pdf_filename = 'Haushaltsplan_2020.pdf'
-name = "Haushaltsplan 2020"
-jahr = 2020
-
-haushalt = Haushalt(pdf_filename, name, jahr)
-haushalt.extract_text_from_pdf()
-haushalt.read_pages_from_text_files()
-haushalt.write_data_to_excel()
-haushalt.write_product_list_to_excel()
+budget = Budget('Haushaltsplan_2021.pdf', 2021)
+budget.extract_text_from_pdf()
+budget.read_pages_from_text_files()
+budget.write_data_to_excel()
+budget.write_product_list_to_excel()
 ```
 
-Die Kernarbeit wird dabei durch die Klasse Haushalt in mehreren Schritten durchgeführt.
+Die Kernarbeit wird dabei durch die Klasse Budget in mehreren Schritten durchgeführt.
 Als Ergebnis liegen dann zwei Excel-Sheets vor: 
-- Data.xlsx: Die reinen Nutzdaten aus dem PDF-Dokument
-- Produkte.xlsx: Die Liste der Produkte aus dem PDF-Dokument
+- Data_2021.xlsx: Die reinen Nutzdaten aus dem PDF-Dokument
+- Produkte_2021.xlsx: Die Liste der Produkte aus dem PDF-Dokument
 
 ## Hinweise
 
