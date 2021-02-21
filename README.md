@@ -35,14 +35,14 @@ Es werden zudem lediglich die untersten Produktebenen exportiert. Die Sammler de
 werden nicht extrahiert, da die Summen ja leicht aus den untersten Produktebenen berechnet werden können.
 
 Das Excel-Sheet, welches durch den Export entsteht, besitzt die folgenden Spalten:
-- Dokument: Der Name des Quelldokuments, z.B. 'Haushaltsplan 2020'
+- Quelle: Das Jahr des Haushaushalts aus dem die Daten stammen, z.B. 2021
 - Seite: Die Seite, auf welcher der spezifische Wert zu finden ist.
-- Obergruppe: Der Produktbereich
-- Mittelgruppe: Die Produktgruppe
-- Untergruppe: Die Produktnummer
+- Produktbereich
+- Produktgruppe
+- Produkt
 - Rechtsbindung: F=Freiwillig, PO=Pflicht ohne Gestaltungsspielraum, PM=Pflicht mit Gestaltungsspielraum
 - Typ: TE=Teilergebnisplan, TF=Teilfinanzplan
-- Ansatz: Das Jahr, für den der Wert angesetzt ist.
+- Ansatz: Das Jahr, für den der Wert angesetzt ist, also z.B. 2021
 - Wert: Der eigentliche Wert in Euro
 
 ## Nutzung
