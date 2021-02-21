@@ -2,16 +2,16 @@ import pdfplumber
 import xlsxwriter
 import sys
 import os
-from seite import Seite
+import pandas as pd
+from page import Page
 
-class Haushalt:
-	def __init__(self, pdf_filename, name, jahr):
+class Budget:
+	def __init__(self, pdf_filename, year):
 		self.pdf_filename = pdf_filename
-		self.name = name
-		self.jahr = jahr
+		self.source_year = year
+		self.cache_dir = "page_cache_" + str(year)
 		self.pages = []
-		self.rows = []
-		self.cache_dir = "page_cache_" + str(jahr)
+		self.dataframe = pd.DataFrame(columns=['Quelle','Seite','Produktbereich','Produktgruppe','Produkt','Rechtsbindung','Typ','Position','Ansatz','Wert'])
 	
 	def extract_text_from_pdf(self):
 		if not os.path.exists(self.cache_dir):
@@ -36,25 +36,19 @@ class Haushalt:
 			page_number = int(file_name[0:3])
 			with open(os.path.join(self.cache_dir, file_name), "r") as myfile:
 				page_lines = myfile.readlines()
-				self.add_page(page_number, page_lines)
+				self._add_page(page_number, page_lines)
 	
 	def write_data_to_excel(self):
 		print("Schreibe Excel-Sheet mit Daten...")
 
-		workbook = xlsxwriter.Workbook("Data.xlsx")
-		worksheet = workbook.add_worksheet()
-
-		for i in range(0, len(self.rows)):
-			row = self.rows[i]
-			for j in range(0, len(row)):
-				column = row[j]
-				worksheet.write(i, j, column)
-
-		workbook.close()
+		filename = "Data_" + str(self.source_year) + ".xlsx"
+		writer = pd.ExcelWriter(filename, engine='xlsxwriter')
+		self.dataframe.to_excel(writer, index=False)
+		writer.save()
 	
 	def write_product_list_to_excel(self):
 		print("Schreibe Excel-Sheet für Produkte...")
-		workbook = xlsxwriter.Workbook("Produkte.xlsx")
+		workbook = xlsxwriter.Workbook("Produkte_" + str(self.source_year) + ".xlsx")
 		worksheet = workbook.add_worksheet()
 		produkte = self.get_produkte()
 
@@ -66,35 +60,14 @@ class Haushalt:
 
 		workbook.close()
 
-	def add_page(self, page_number, page_lines):
-		if self.is_page_relevant(page_lines, page_number):
-			p = Seite(self.name, self.jahr, page_number, page_lines)
+	def _add_page(self, page_number, page_lines):
+		p = Page(self.source_year, page_number, page_lines)
+
+		if p.is_page_relevant():
 			self.pages.append(p)
-
-			rows = p.extract_rows()
-			if self.check_result(rows):
-				self.rows.extend(rows)
-			else:
-				print("Something not ok with " + p.meta)
-	
-	def check_result(self, rows):
-		return len(rows) - len([x for x in rows if x[6] == 'TF']) - len([x for x in rows if x[6] == 'TE']) == 0
-
-	def is_page_relevant(self, page_lines, page_number):
-		if len(page_lines) > 3:
-
-			if not page_lines[3].startswith("Produkt"):
-				page_lines[2] = page_lines[2] + page_lines[3]
-				del page_lines[3]
-
-			if (page_lines[0].startswith("Doppischer Produktplan") and 
-				page_lines[1].startswith("Produktbereich") and 
-				page_lines[3].startswith("Produkt ") and
-				any("Steuern und ähnliche" in s for s in page_lines)):
-					return True
+			rows = p.extract_data()
+			self.dataframe = self.dataframe.append(rows, ignore_index=True)
 		
-		return False
-	
 	def get_produkte(self):
 		produkte = []
 		
