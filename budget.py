@@ -50,7 +50,7 @@ class Budget:
 		print("Schreibe Excel-Sheet für Produkte...")
 		workbook = xlsxwriter.Workbook("Produkte_" + str(self.source_year) + ".xlsx")
 		worksheet = workbook.add_worksheet()
-		produkte = self.get_produkte()
+		produkte = self.get_products()
 
 		for i in range(0, len(produkte)):
 			row = produkte[i]
@@ -68,12 +68,12 @@ class Budget:
 			rows = p.extract_data()
 			self.dataframe = self.dataframe.append(rows, ignore_index=True)
 		
-	def get_produkte(self):
-		produkte = []
+	def get_products(self):
+		products = []
 		
 		for i in range(0, len(self.pages)):
 			page = self.pages[i]
 			if page.meta["typ"] == "TF":
-				produkte.append([page.meta["obergruppe"], page.meta["mittelgruppe"], page.meta["untergruppe"], page.meta["name"], page.meta["rechtsbindung"]])
+				products.append([page.meta["obergruppe"], page.meta["mittelgruppe"], page.meta["untergruppe"], page.meta["name"], page.meta["rechtsbindung"]])
 		
-		return produkte
+		return products
